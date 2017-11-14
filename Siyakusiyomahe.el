@@ -21,4 +21,27 @@
     (previous-line 0)
     (beginning-of-line))
 
+
+
+
+(defun Sy-n-b ()
+    (interactive)
+    (let*
+        (
+            (newline "
+"))
+        
+        (cond
+            (
+                (looking-at newline)
+                (princ "a")
+                (while
+                    (looking-at newline)
+                    (next-line)))
+            (t
+                (princ "b")
+                (princ "c")
+                (search-forward (s-concat newline newline))))))
+
+
 (provide 'Siyakusiyomahe)
