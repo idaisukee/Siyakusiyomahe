@@ -31,19 +31,6 @@
             (looking-at Sy-2-newlines))))
 
 (defun Sy-out-block? ()
-    (cond
-        (
-            (Sy-beginning-of-buffer?)
-            (looking-at Sy-newline))
-        (
-            (Sy-end-of-buffer?)
-            (looking-back Sy-newline))
-        (t
-            (and
-                (looking-back Sy-newline)
-                (looking-at Sy-newline)))))
-
-(defun Sy-blank-line? ()
     (save-excursion
         (beginning-of-line)
         (while
@@ -56,13 +43,6 @@
 (defun Sy-in-block? ()
     (not
         (Sy-out-block?)))
-
-(defun Sy-beginning-of-block ()
-    (interactive)
-    (while
-        (Sy-in-block?)
-        (backward-char))
-    (forward-char))
 
 (defun Sy-beginning-of-block ()
     (interactive)
@@ -83,6 +63,18 @@
         (Sy-out-block?)
         (previous-line)))
 
+(defun Sy-dive-out ()
+    (interactive)
+    (while
+        (Sy-in-block?)
+        (next-line)))
+
+(defun Sy-dive-in ()
+    (interactive)
+    (while
+        (Sy-out-block?)
+        (next-line)))
+
 (defun Sy-previous-block ()
     (interactive)
     (cond
@@ -96,14 +88,17 @@
             (Sy-climb-in)
             (Sy-beginning-of-block))))
 
-(bind-key "C-;" 'Sy-climb-out)
-(bind-key "C-:" 'Sy-climb-in)
-
-(bind-key "C-;" 'Sy-previous-block)
-(bind-key "C-:" 'Sy-beginning-of-block)
-
-(bind-key "C-:" 'Sy-end-of-block?)
+(defun Sy-next-block ()
+    (interactive)
+    (cond
+        (
+            (Sy-in-block?)
+            (Sy-dive-out)
+            (Sy-dive-in)
+            (Sy-beginning-of-block))
+        (
+            t
+            (Sy-dive-in)
+            (Sy-beginning-of-block))))
 
 (provide 'Siyakusiyomahe)
-
-
