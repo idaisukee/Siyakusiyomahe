@@ -16,7 +16,6 @@
             (= (point) (point-max)))))
 
 (defun Sy-beginning-of-block? ()
-    (interactive)
     (or
         (Sy-beginning-of-buffer?)
         (and
@@ -24,7 +23,6 @@
             (looking-back Sy-2-newlines))))
 
 (defun Sy-end-of-block? ()
-    (interactive)
     (or
         (Sy-end-of-buffer?)
         (and
