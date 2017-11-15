@@ -1,3 +1,4 @@
+(require 'dash)
 (require 's)
 
 (setq Sy-newline "
@@ -74,18 +75,19 @@
         (Sy-out-block?)
         (next-line)))
 
-(defun Sy-previous-block ()
-    (interactive)
-    (cond
-        (
-            (Sy-in-block?)
-            (Sy-climb-out)
-            (Sy-climb-in)
-            (Sy-beginning-of-block))
-        (
-            t
-            (Sy-climb-in)
-            (Sy-beginning-of-block))))
+(defun Sy-previous-block (arg)
+    (interactive "P")
+    (--dotimes (-> arg prefix-numeric-value)
+        (cond
+            (
+                (Sy-in-block?)
+                (Sy-climb-out)
+                (Sy-climb-in)
+                (Sy-beginning-of-block))
+            (
+                t
+                (Sy-climb-in)
+                (Sy-beginning-of-block)))))
 
 (defun Sy-next-block ()
     (interactive)
@@ -99,5 +101,19 @@
             t
             (Sy-dive-in)
             (Sy-beginning-of-block))))
+
+(defun Sy-next-block (arg)
+    (interactive "P")
+    (--dotimes (-> arg prefix-numeric-value)
+        (cond
+            (
+                (Sy-in-block?)
+                (Sy-dive-out)
+                (Sy-dive-in)
+                (Sy-beginning-of-block))
+            (
+                t
+                (Sy-dive-in)
+                (Sy-beginning-of-block)))))
 
 (provide 'Siyakusiyomahe)
