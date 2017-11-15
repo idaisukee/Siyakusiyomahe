@@ -3,6 +3,7 @@
 (setq Sy-newline "
 ")
 
+(setq Sy-2-newlines (s-concat Sy-newline Sy-newline))
 
 (defun Sy-beginning-of-buffer? ()
     (cond
