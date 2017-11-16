@@ -20,7 +20,7 @@
     (or
         (Sy-beginning-of-buffer?)
         (and
-            (Sy-in-block?)
+            (Sy-in-block?) ;;; TODO ここがだめ
             (looking-back Sy-2-newlines))))
 
 (defun Sy-end-of-block? ()
