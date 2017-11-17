@@ -21,24 +21,28 @@
         (Sy-beginning-of-buffer?)
         (and
             (Sy-in-block?) ;;; TODO ここがだめ
-            (looking-back Sy-2-newlines))))
+            (Sy-out-block? -1))))
 
 (defun Sy-end-of-block? ()
     (or
         (Sy-end-of-buffer?)
         (and
             (Sy-in-block?)
-            (looking-at Sy-2-newlines))))
+            (Sy-out-block 1))))
 
-(defun Sy-out-block? ()
-    (save-excursion
-        (beginning-of-line)
-        (while
-            (or
-                (looking-at " ")
-                (looking-at "	"))
-            (forward-char))
-        (eolp)))
+(defun Sy-out-block? (&optional line)
+    (let*
+        (
+            (line* (or line 0)))
+        (save-excursion
+            (next-line line*)
+            (beginning-of-line)
+            (while
+                (or
+                    (looking-at " ")
+                    (looking-at "	"))
+                (forward-char))
+            (eolp))))
 
 (defun Sy-in-block? ()
     (not
@@ -117,3 +121,96 @@
                 (Sy-beginning-of-block)))))
 
 (provide 'Siyakusiyomahe)
+
+
+(defun Sy-top-of-buffer? ()
+    (save-excursion
+        (beginning-of-line)
+        (Sy-beginning-of-buffer?)))
+
+(defun Sy-top-of-block? ()
+    (or
+        (Sy-top-of-buffer?)
+        (and
+            (Sy-in-block?)
+            (Sy-out-block? -1))))
+
+(defun Sy-top-of-block ()
+    (interactive)
+    (cond
+        
+        (
+            (Sy-in-block?)
+            (while
+                
+                (not
+                    (Sy-top-of-block?))
+                (next-line -1)))))
+
+(defun Sy-beginning-of-block ()
+    (interactive)
+    (Sy-top-of-block)
+    (beginning-of-line)
+    (Sy-parenchyma))
+
+(defun Sy-beginning-of-block? ()
+    (save-excursion)
+    (Sy-stroma)
+    (bolp))
+
+(defun Sy-parenchyma ()
+    (interactive)
+    (while
+        (or
+            (looking-at " ")
+            (looking-at "	"))
+        (forward-char)))
+
+(defun Sy-stroma ()
+    (interactive)
+    (while
+        (or
+            (looking-back " ")
+            (looking-back "	"))
+        (forward-char -1)))
+
+(defun Sy-climb-in ()
+    (interactive)
+    (while
+        (and
+            (Sy-out-block?)
+            (not
+                (Sy-top-of-buffer?)))
+        (next-line -1)))
+
+(defun Sy-climb-out ()
+    (interactive)
+    (while
+        (and
+            (Sy-in-block?)
+            (not
+                (Sy-top-of-buffer?)))
+        (next-line -1)))
+
+(defun Sy-previous-block ()
+    (interactive)
+    (cond
+        (
+
+            (Sy-out-block?)
+            (Sy-climb-in)
+            (Sy-beginning-of-block))
+        (
+            (and
+                (Sy-in-block?)
+                (Sy-beginning-of-block?)))
+        (
+            (and
+                (Sy-in-block?)
+                (not (Sy-beginning-of-block?)))
+            )
+            (Sy-climb-out)
+            (Sy-cilmb-in)
+            (Sy-beginning-of-block))))
+
+(Sy-top-of-block?)
