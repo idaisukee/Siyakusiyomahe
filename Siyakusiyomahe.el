@@ -1,3 +1,5 @@
+
+
 (require 'dash)
 (require 's)
 
@@ -156,7 +158,9 @@
 (defun Sy-beginning-of-block? ()
     (save-excursion)
     (Sy-stroma)
-    (bolp))
+    (and
+        (Sy-top-of-block?)
+        (bolp)))
 
 (defun Sy-parenchyma ()
     (interactive)
@@ -203,14 +207,19 @@
         (
             (and
                 (Sy-in-block?)
-                (Sy-beginning-of-block?)))
+                (Sy-beginning-of-block?))
+            (Sy-climb-out)
+            (Sy-climb-in)
+            (Sy-beginning-of-block))
         (
             (and
                 (Sy-in-block?)
-                (not (Sy-beginning-of-block?)))
-            )
-            (Sy-climb-out)
-            (Sy-cilmb-in)
-            (Sy-beginning-of-block)))
-
-(Sy-top-of-block?)
+                (not (Sy-beginning-of-block?))
+                (Sy-top-of-block?))
+            (Sy-beginning-of-block))
+        (
+            (and
+                (Sy-in-block?)
+                (not (Sy-beginning-of-block?))
+                (not (Sy-top-of-block?)))
+            (Sy-beginning-of-block))))
