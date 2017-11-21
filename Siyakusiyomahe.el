@@ -200,26 +200,14 @@
     (interactive)
     (cond
         (
-
             (Sy-out-block?)
             (Sy-climb-in)
             (Sy-beginning-of-block))
         (
-            (and
-                (Sy-in-block?)
-                (Sy-beginning-of-block?))
+            (Sy-beginning-of-block?)
             (Sy-climb-out)
             (Sy-climb-in)
             (Sy-beginning-of-block))
         (
-            (and
-                (Sy-in-block?)
-                (not (Sy-beginning-of-block?))
-                (Sy-top-of-block?))
-            (Sy-beginning-of-block))
-        (
-            (and
-                (Sy-in-block?)
-                (not (Sy-beginning-of-block?))
-                (not (Sy-top-of-block?)))
+            t
             (Sy-beginning-of-block))))
