@@ -211,6 +211,6 @@
             )
             (Sy-climb-out)
             (Sy-cilmb-in)
-            (Sy-beginning-of-block))))
+            (Sy-beginning-of-block)))
 
 (Sy-top-of-block?)
